@@ -22,3 +22,93 @@ function exportarTodosLosCanvas() {
 </script>
 <!-- Ejemplo de botón: -->
 <button onclick="exportarTodosLosCanvas()">Exportar todos los gráficos</button>
+
+
+
+
+
+
+
+
+
+<script>
+// IDs de los canvas que quieres exportar
+const canvasIDs = [
+    'myChart', 'myChart2', 'myChart3', 'myChart4', 'myChart5',
+    'myChart6', 'myChart7', 'myChart8', 'myChart9'
+];
+
+// Dibuja fondo blanco y exporta gráfico + tabla de datos en una sola imagen
+function exportarGraficoYTabla(id) {
+    const canvas = document.getElementById(id);
+    if (!canvas) return;
+
+    // Encuentra el Chart de Chart.js asociado a este canvas
+    const chart = Chart.getChart(canvas);
+    if (!chart) return;
+
+    // --- 1. Obtener los datos y labels del gráfico ---
+    const labels = chart.data.labels || [];
+    const datasets = chart.data.datasets || [];
+
+    // --- 2. Renderizar la tabla como texto ---
+    // Calcula la altura de la tabla (headers + filas)
+    const tablaRowHeight = 28;
+    const tablaHeaderHeight = 32;
+    const tablaTotalHeight = tablaHeaderHeight + labels.length * tablaRowHeight + 10;
+
+    // --- 3. Canvas auxiliar (fondo blanco) ---
+    const ancho = canvas.width;
+    const alto = canvas.height + tablaTotalHeight;
+    const exportCanvas = document.createElement('canvas');
+    exportCanvas.width = ancho;
+    exportCanvas.height = alto;
+    const ctx = exportCanvas.getContext('2d');
+
+    // Fondo blanco
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, ancho, alto);
+
+    // --- 4. Dibuja el gráfico original ---
+    ctx.drawImage(canvas, 0, 0);
+
+    // --- 5. Dibuja la tabla de datos debajo ---
+    const startY = canvas.height + 10;
+    const colWidth = Math.max(100, (ancho - 80) / (datasets.length + 1));
+    ctx.font = 'bold 16px Arial';
+    ctx.fillStyle = '#333';
+    ctx.textBaseline = 'top';
+
+    // Cabeceras
+    ctx.fillText('Label', 40, startY);
+    datasets.forEach((ds, i) => {
+        ctx.fillText(ds.label || ('Serie ' + (i + 1)), 40 + colWidth * (i + 1), startY);
+    });
+
+    // Filas
+    ctx.font = '14px Arial';
+    labels.forEach((label, r) => {
+        let y = startY + tablaHeaderHeight + r * tablaRowHeight;
+        ctx.fillStyle = '#222';
+        ctx.fillText(label != null ? label : '', 40, y);
+        datasets.forEach((ds, i) => {
+            const valor = Array.isArray(ds.data) ? ds.data[r] : '';
+            ctx.fillStyle = ds.backgroundColor ? ds.backgroundColor : '#444';
+            ctx.fillText(valor != null ? valor : '', 40 + colWidth * (i + 1), y);
+        });
+    });
+
+    // --- 6. Descargar la imagen ---
+    const url = exportCanvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${id}.png`;
+    link.click();
+}
+
+// Exporta todos los gráficos con su tabla de datos
+function exportarTodosLosCanvas() {
+    canvasIDs.forEach(id => exportarGraficoYTabla(id));
+}
+</script>
+<button onclick="exportarTodosLosCanvas()">Exportar todos los gráficos con tabla</button>
