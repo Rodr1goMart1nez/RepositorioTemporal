@@ -112,3 +112,174 @@ function exportarTodosLosCanvas() {
 }
 </script>
 <button onclick="exportarTodosLosCanvas()">Exportar todos los gráficos con tabla</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// IDs de los canvas que quieres exportar
+const canvasIDs = [
+    'myChart', 'myChart2', 'myChart3', 'myChart4', 'myChart5',
+    'myChart6', 'myChart7', 'myChart8', 'myChart9'
+];
+
+// Función para dibujar un rectángulo con bordes redondeados en canvas
+function drawRoundedRect(ctx, x, y, width, height, radius, borderColor, bgColor) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + width - radius, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+    ctx.lineTo(x + width, y + height - radius);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    ctx.lineTo(x + radius, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.quadraticCurveTo(x, y, x + radius, y);
+    ctx.closePath();
+
+    // Fondo
+    ctx.fillStyle = bgColor;
+    ctx.fill();
+
+    // Borde
+    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = borderColor;
+    ctx.stroke();
+    ctx.restore();
+}
+
+// Dibuja fondo blanco y exporta gráfico + tabla de datos en una sola imagen
+function exportarGraficoYTabla(id) {
+    const canvas = document.getElementById(id);
+    if (!canvas) return;
+
+    // Encuentra el Chart de Chart.js asociado a este canvas
+    const chart = Chart.getChart(canvas);
+    if (!chart) return;
+
+    // --- 1. Obtener los datos y labels del gráfico ---
+    const labels = chart.data.labels || [];
+    const datasets = chart.data.datasets || [];
+
+    // --- 2. Renderizar la tabla como texto ---
+    // Calcula la altura de la tabla (headers + filas)
+    const tablaRowHeight = 32;
+    const tablaHeaderHeight = 38;
+    const tablaPadding = 20;
+    const tablaColCount = datasets.length + 1;
+    const tablaColWidth = Math.max(100, (canvas.width - 2 * tablaPadding) / tablaColCount);
+    const tablaTotalHeight = tablaHeaderHeight + labels.length * tablaRowHeight + 2 * tablaPadding;
+
+    // --- 3. Canvas auxiliar (fondo blanco) ---
+    const ancho = canvas.width;
+    const alto = canvas.height + tablaTotalHeight + 20;
+    const exportCanvas = document.createElement('canvas');
+    exportCanvas.width = ancho;
+    exportCanvas.height = alto;
+    const ctx = exportCanvas.getContext('2d');
+
+    // Fondo blanco
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, ancho, alto);
+
+    // --- 4. Dibuja el gráfico original ---
+    ctx.drawImage(canvas, 0, 0);
+
+    // --- 5. Dibuja la tabla de datos debajo con bordes redondeados ---
+    const tablaX = tablaPadding;
+    const tablaY = canvas.height + 10;
+    const tablaWidth = ancho - 2 * tablaPadding;
+    const tablaHeight = tablaTotalHeight;
+
+    drawRoundedRect(ctx, tablaX, tablaY, tablaWidth, tablaHeight, 20, "#3a3a3a", "#fafcfe");
+
+    // Bordes de columnas y filas internas
+    ctx.save();
+    ctx.beginPath();
+    for (let c = 1; c < tablaColCount; c++) {
+        let x = tablaX + c * tablaColWidth;
+        ctx.moveTo(x, tablaY + 0);
+        ctx.lineTo(x, tablaY + tablaHeight);
+    }
+    for (let r = 1; r <= labels.length + 1; r++) {
+        let y = tablaY + tablaHeaderHeight + (r - 1) * tablaRowHeight;
+        ctx.moveTo(tablaX, y);
+        ctx.lineTo(tablaX + tablaWidth, y);
+    }
+    ctx.strokeStyle = "#bbb";
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+    ctx.restore();
+
+    // --- 6. Dibujar los textos de la tabla ---
+    ctx.font = 'bold 18px Arial';
+    ctx.fillStyle = "#2a2a2a";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    // Cabeceras
+    ctx.fillText('Etiqueta', tablaX + tablaColWidth / 2, tablaY + tablaHeaderHeight / 2);
+
+    datasets.forEach((ds, i) => {
+        ctx.fillText(ds.label || ('Serie ' + (i + 1)),
+            tablaX + tablaColWidth * (i + 1) + tablaColWidth / 2,
+            tablaY + tablaHeaderHeight / 2
+        );
+    });
+
+    // Filas de datos
+    ctx.font = '16px Arial';
+    for (let r = 0; r < labels.length; r++) {
+        // Etiqueta
+        ctx.fillStyle = "#2a2a2a";
+        ctx.fillText(
+            labels[r] != null ? labels[r] : '',
+            tablaX + tablaColWidth / 2,
+            tablaY + tablaHeaderHeight + tablaRowHeight / 2 + r * tablaRowHeight
+        );
+        // Valores
+        datasets.forEach((ds, i) => {
+            const valor = Array.isArray(ds.data) ? ds.data[r] : '';
+            let displayValor = valor != null && valor !== '' && !isNaN(valor)
+                ? Number(valor).toLocaleString('es-ES')
+                : (valor != null ? valor : '');
+            ctx.fillStyle = ds.backgroundColor && typeof ds.backgroundColor === "string"
+                ? ds.backgroundColor
+                : "#3a3a3a";
+            ctx.fillText(
+                displayValor,
+                tablaX + tablaColWidth * (i + 1) + tablaColWidth / 2,
+                tablaY + tablaHeaderHeight + tablaRowHeight / 2 + r * tablaRowHeight
+            );
+        });
+    }
+
+    // --- 7. Descargar la imagen ---
+    const url = exportCanvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${id}.png`;
+    link.click();
+}
+
+// Exporta todos los gráficos con su tabla de datos
+function exportarTodosLosCanvas() {
+    canvasIDs.forEach(id => exportarGraficoYTabla(id));
+}
+</script>
+<button onclick="exportarTodosLosCanvas()">Exportar todos los gráficos con tabla</button>
