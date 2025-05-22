@@ -1,47 +1,63 @@
 import smtplib
-import os
-from email.message import EmailMessage
-from email.utils import make_msgid
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 
-# Configura aquí tus datos
+# Configuración SMTP (modifica según tu proveedor)
 SMTP_SERVER = 'smtp.gmail.com'
 SMTP_PORT = 587
 EMAIL_USER = 'tucorreo@gmail.com'
-EMAIL_PASS = 'tu_contraseña_o_contraseña_app'
+EMAIL_PASS = 'tu_contraseña_app'
 EMAIL_TO = 'destinatario@ejemplo.com'
-ASUNTO = 'Gráfico generado con Chart.js'
-CUERPO = 'Adjunto el gráfico generado con Chart.js.'
+ASUNTO = 'Varios Gráficos Chart.js incrustados en HTML'
 
-# Ruta al gráfico exportado
-PATH_ADJUNTO = 'grafico.png'
+# Lista de imágenes a incrustar
+imagenes = [
+    ('grafico1.png', 'grafico1'),
+    ('grafico2.png', 'grafico2'),
+    ('grafico3.png', 'grafico3'),
+]
+
+# Construimos el HTML referenciando las imágenes por su Content-ID
+html = """
+<html>
+  <body>
+    <h2>Gráficos generados con Chart.js</h2>
+    <p>Primer gráfico:</p>
+    <img src="cid:grafico1"><br>
+    <p>Segundo gráfico:</p>
+    <img src="cid:grafico2"><br>
+    <p>Tercer gráfico:</p>
+    <img src="cid:grafico3"><br>
+  </body>
+</html>
+"""
 
 def enviar_email():
-    # Crear el mensaje
-    msg = EmailMessage()
+    msg = MIMEMultipart('related')
     msg['Subject'] = ASUNTO
     msg['From'] = EMAIL_USER
     msg['To'] = EMAIL_TO
-    msg.set_content(CUERPO)
 
-    # Adjuntar la imagen
-    if os.path.exists(PATH_ADJUNTO):
-        with open(PATH_ADJUNTO, 'rb') as img:
-            img_data = img.read()
-            msg.add_attachment(img_data, maintype='image', subtype='png', filename='grafico.png')
-    else:
-        print("No se encontró el archivo:", PATH_ADJUNTO)
-        return
+    msg_alt = MIMEMultipart('alternative')
+    msg.attach(msg_alt)
+    msg_alt.attach(MIMEText("Tu cliente de correo no soporta HTML.", 'plain'))
+    msg_alt.attach(MIMEText(html, 'html'))
 
-    # Enviar el email por SMTP
-    try:
-        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as smtp:
-            smtp.starttls()
-            smtp.login(EMAIL_USER, EMAIL_PASS)
-            smtp.send_message(msg)
-            print("Correo enviado correctamente.")
-    except Exception as e:
-        print("Error al enviar correo:", e)
+    # Adjuntar cada imagen como parte del email, referenciando su Content-ID
+    for img_path, cid in imagenes:
+        with open(img_path, 'rb') as f:
+            img = MIMEImage(f.read())
+            img.add_header('Content-ID', f'<{cid}>')
+            img.add_header('Content-Disposition', 'inline', filename=img_path)
+            msg.attach(img)
+
+    # Enviar el email
+    with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as smtp:
+        smtp.starttls()
+        smtp.login(EMAIL_USER, EMAIL_PASS)
+        smtp.send_message(msg)
+        print('Correo enviado correctamente.')
 
 if __name__ == "__main__":
     enviar_email()
