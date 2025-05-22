@@ -1,34 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Exportar gráfico Chart.js</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-  <canvas id="miGrafico" width="400" height="200"></canvas>
-  <button onclick="descargarImagen()">Descargar imagen</button>
-  <script>
-    const ctx = document.getElementById('miGrafico').getContext('2d');
-    const miGrafico = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Rojo', 'Azul', 'Amarillo'],
-        datasets: [{
-          label: 'Votos',
-          data: [12, 19, 3],
-          backgroundColor: ['red', 'blue', 'yellow']
-        }]
-      }
-    });
+<script>
+function exportarTodosLosCanvas() {
+    // Lista de IDs de los canvas en tu página
+    const canvasIDs = [
+        'myChart', 'myChart2', 'myChart3', 'myChart4', 'myChart5',
+        'myChart6', 'myChart7', 'myChart8', 'myChart9'
+    ];
 
-    function descargarImagen() {
-      const canvas = document.getElementById('miGrafico');
-      const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
-      const link = document.createElement('a');
-      link.href = image;
-      link.download = 'grafico.png';
-      link.click();
-    }
-  </script>
-</body>
-</html>
+    canvasIDs.forEach(function(id, i) {
+        const canvas = document.getElementById(id);
+        if(canvas) {
+            const dataUrl = canvas.toDataURL('image/png');
+            // Descarga local
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = `${id}.png`;
+            link.click();
+        }
+    });
+}
+// Llama esta función manualmente desde la consola, o pon un botón para dispararla
+</script>
+<!-- Ejemplo de botón: -->
+<button onclick="exportarTodosLosCanvas()">Exportar todos los gráficos</button>
