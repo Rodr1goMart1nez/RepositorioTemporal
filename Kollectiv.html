@@ -85,3 +85,299 @@
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'imgs/contra/img/ItauBanco.png' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <title>SQLITO</title>
+    {% include "contra_index.html" %}
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .header {
+            width: 100%;
+            padding: 10px 0;
+            background-color: #b8b7b7;
+            color: white;
+            text-align: center;
+            font-size: 34px;
+            font-family: "Russo One", sans-serif;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+        .main-section {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: center;
+            width: 100%;
+            margin-top: 30px;
+            gap: 40px;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            min-width: 380px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group select, .form-group input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .submit-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #ff9900;
+            color: rgb(13, 11, 11);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 20px auto 0;
+        }
+        .submit-button:hover {
+            background-color: #f66200;
+        }
+        .form-group input[type="text"] {
+            width: 95%;
+        }
+
+        /* Lado visual derecho */
+        .visual-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 370px;
+        }
+        .comic-dialog {
+            background: #fff;
+            padding: 1.2em 2.5em 1.5em 2em;
+            border-radius: 36px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            border: 3px solid #222;
+            font-size: 1.25em;
+            color: #757575;
+            display: inline-block;
+            white-space: nowrap;
+            z-index: 10;
+            text-align: center;
+            margin-bottom: 18px;
+            position: relative;
+        }
+        .comic-dialog::after {
+            content: '';
+            position: absolute;
+            bottom: -28px;
+            left: 70px;
+            width: 0;
+            height: 0;
+            border-left: 24px solid transparent;
+            border-right: 24px solid transparent;
+            border-top: 28px solid #fff;
+            filter: drop-shadow(0 0 0 #222);
+        }
+        .comic-dialog::before {
+            content: '';
+            position: absolute;
+            bottom: -32px;
+            left: 67px;
+            width: 0;
+            height: 0;
+            border-left: 27px solid transparent;
+            border-right: 27px solid transparent;
+            border-top: 32px solid #222;
+        }
+        .contador {
+            color: #111;
+            font-weight: bold;
+            font-size: 1.2em;
+            font-family: monospace;
+            margin: 0 0.25em;
+            display: inline-block;
+        }
+        .main-img {
+            display: block;
+            max-width: 350px;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+        }
+        @media (max-width: 900px) {
+            .main-section {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            .visual-col {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        Nexus-7
+    </div>
+
+    <div class="main-section">
+        <form class="container" action="/contra/grafico_interactivo/" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="item1">PINES</label>
+                <select id="item1" name="PINES">
+                    <option value=1>TODO</option>
+                    <option value="acceso">Acceso</option>
+                    <option value="transaccion">Transaccion</option>
+                    <option value=0>NO</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item2">LOGS</label>
+                <select id="item2" name="LOGS">
+                    <option value=1>TODO</option>
+                    <option value=2025>2025</option>
+                    <option value=2024>2024</option>
+                    <option value=0>NO</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item3">Transferencias</label>
+                <select id="item3" name="TRANS">
+                    <option value=1>TODO</option>
+                    <option value="recibidas">Recibidas</option>
+                    <option value="enviadas">Enviadas</option>
+                    <option value=0>NO</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item4">Pago de Servicios</label>
+                <select id="item4" name="PAGOS">
+                    <option value=1>SI</option>
+                    <option value=0>NO</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item5">ITOKEN</label>
+                <select id="item5" name="ITOKEN">
+                    <option value=1>SOLO</option>
+                    <option value="otp">OTP</option>
+                    <option value=0>NO</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item6">TOKENIZATION</label>
+                <select id="item6" name="TOKEN">
+                    <option value=1>SI</option>
+                    <option value=0>NO</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item7">PAGO TC</label>
+                <select id="item7" name="PAGOTC">
+                    <option value=2025>2025</option>
+                    <option value=2024>2024</option>
+                    <option value=2023>2023</option>
+                    <option value=0>NO</option>
+                </select>
+            </div>
+            <div class="form-group" style="grid-column: span 2;">
+                <label for="client_number">Número de Cliente</label>
+                <input type="text" name="CLIENTE" placeholder="Ingrese el número de cliente" required>
+            </div>
+            <div class="form-group">
+                <label for="item8">USUARIO</label>
+                <select id="item8" name="USER">
+                    <option value="ERWINC">ERWINC</option>
+                    <option value="ALVAROM">ALVAROM</option>
+                    <option value="WALTERB">WALTERB</option>
+                    <option value="CLAUDIAC">CLAUDIAC</option>
+                </select>
+            </div>
+            <div class="form-group" style="grid-column: span 1;">
+                <button type="submit" class="submit-button">Solicitar</button>
+            </div>
+        </form>
+        <div class="visual-col">
+            <div class="comic-dialog">
+                Tu pedido se gestionará en
+                <span class="contador" id="contador">05:00</span>
+                minutos
+            </div>
+            <img class="main-img" src="{% static 'imgs/contra/img/Copilot_20250612_161931-min.png' %}" alt="Copilot">
+        </div>
+    </div>
+    <script>
+        function actualizarContador() {
+            const ahora = new Date();
+            const minutos = ahora.getMinutes();
+            const segundos = ahora.getSeconds();
+            const minutosDesdeMultiplo = minutos % 5;
+            const segundosTranscurridos = minutosDesdeMultiplo * 60 + segundos;
+            const restante = 5 * 60 - segundosTranscurridos;
+            const min = Math.floor(restante / 60);
+            const seg = restante % 60;
+            const minStr = min.toString().padStart(2, '0');
+            const segStr = seg.toString().padStart(2, '0');
+            document.getElementById('contador').textContent = `${minStr}:${segStr}`;
+        }
+        setInterval(actualizarContador, 1000);
+        actualizarContador();
+    </script>
+</body>
+</html>
