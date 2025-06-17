@@ -1,10 +1,3 @@
-<div class="form-group" style="grid-column: span 3;">
-                <label for="excel_file">Archivo Excel</label>
-                <input type="file" id="excel_file" name="EXCEL_FILE" accept=".xlsx,.xls" required>
-            </div>
-
-
-
 {% load static %}
 
 <!DOCTYPE html>
@@ -41,28 +34,23 @@
             border-bottom-right-radius: 25px;
             box-shadow: 0 8px 10px rgba(0, 0, 0, 0.1);
         }
-        .main-section, .main-section-forms {
+        .main-section {
             display: flex;
-            flex-direction: row;
             align-items: flex-start;
             justify-content: center;
             width: 100%;
             margin-top: 30px;
             gap: 40px;
         }
-        .container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            padding: 35px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            min-width: 380px;
-            margin-top: 100px;
-            margin-right: 50px;
+        .forms-section-vertical {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 0px;
+            gap: 0;
         }
+        .container,
         .container-reverse {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -73,8 +61,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             max-width: 600px;
             min-width: 380px;
-            margin-top: 100px;
-            margin-left: 50px;
+            margin-top: 40px;
         }
         .form-group {
             display: flex;
@@ -88,6 +75,9 @@
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
+        }
+        .form-group input[type="file"] {
+            width: 100%;
         }
         .submit-button {
             display: block;
@@ -165,12 +155,23 @@
             display: block;
             max-width: 350px;
         }
+        .division-hr {
+            width: 90%;
+            margin: 40px auto 0 auto;
+            border: none;
+            height: 2px;
+            background-color: #d3d3d3;
+        }
+        .form-title {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 1.3em;
+            font-family: "Russo One", sans-serif;
+            margin-bottom: 12px;
+            color: #333;
+            letter-spacing: 1px;
+        }
         @media (max-width: 1200px) {
-            .main-section, .main-section-forms {
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-            }
             .container,
             .container-reverse {
                 margin-left: 0;
@@ -276,10 +277,13 @@
         </div>
     </div>
 
-    <!-- Sección duplicada solo con dos formularios -->
-    <div class="main-section-forms" style="margin-top: 0;">
+    <hr class="division-hr">
+
+    <!-- Sección de formularios verticales -->
+    <div class="forms-section-vertical">
         <form class="container" action="/contra/grafico_interactivo/" method="post">
             {% csrf_token %}
+            <div class="form-title">Formulario Secundario</div>
             <div class="form-group">
                 <label for="item1b">Pines</label>
                 <select id="item1b" name="PINES">
@@ -357,8 +361,10 @@
                 <button type="submit" class="submit-button">Solicitar</button>
             </div>
         </form>
-        <form class="container-reverse" action="/contra/grafico_interactivo/" method="post">
+
+        <form class="container-reverse" action="/contra/grafico_interactivo/" method="post" enctype="multipart/form-data">
             {% csrf_token %}
+            <div class="form-title">Formulario con Archivo Excel</div>
             <div class="form-group">
                 <label for="item1c">Pines</label>
                 <select id="item1c" name="PINES">
@@ -431,6 +437,10 @@
                     <option value="LIZMA">LIZMA</option>
                     <option value="CAROLINF">CAROLINF</option>
                 </select>
+            </div>
+            <div class="form-group" style="grid-column: span 2;">
+                <label for="excel_file">Archivo Excel</label>
+                <input type="file" id="excel_file" name="EXCEL_FILE" accept=".xlsx,.xls" required>
             </div>
             <div class="form-group" style="grid-column: span 1;">
                 <button type="submit" class="submit-button">Solicitar</button>
