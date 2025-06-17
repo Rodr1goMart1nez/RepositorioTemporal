@@ -469,3 +469,262 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario Condicional SQL</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fdf7ef;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 50px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      max-width: 700px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-weight: bold;
+      font-size: 24px;
+      color: #333;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 15px;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    select, input[type="text"] {
+      padding: 8px 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      min-width: 140px;
+    }
+
+    .btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s ease;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .condition {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .delete-btn {
+      background-color: transparent;
+      border: none;
+      color: red;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      color: darkred;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Formulario Condicional SQL</h2>
+
+    <form id="queryForm" action="/procesar" method="POST">
+      <div class="form-row">
+        <div>
+          <label for="tableSelect">Tabla</label>
+          <select id="tableSelect" name="table" required>
+            <option value="">Seleccionar</option>
+            <option value="users">users</option>
+            <option value="products">products</option>
+            <option value="orders">orders</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="conditionsContainer"></div>
+
+      <input type="hidden" name="conditions_text" id="conditions_text">
+
+      <button type="button" id="addCondition" class="btn">+ Añadir condición</button>
+      <button type="submit" class="btn">Enviar</button>
+    </form>
+  </div>
+
+  <script>
+    const tableFields = {
+      users: ['id', 'name', 'email', 'age'],
+      products: ['id', 'name', 'price', 'category'],
+      orders: ['id', 'user_id', 'product_id', 'status']
+    };
+
+    const operators = ['=', '!=', '<', '>', 'LIKE'];
+    const logicOptions = ['AND', 'OR'];
+
+    const tableSelect = document.getElementById('tableSelect');
+    const conditionsContainer = document.getElementById('conditionsContainer');
+    const addConditionBtn = document.getElementById('addCondition');
+    const form = document.getElementById('queryForm');
+    const conditionsInput = document.getElementById('conditions_text');
+
+    function createConditionRow(fields, showLogic) {
+      const div = document.createElement('div');
+      div.classList.add('condition');
+
+      if (showLogic) {
+        const logicSelect = document.createElement('select');
+        logicOptions.forEach(logic => {
+          const opt = document.createElement('option');
+          opt.value = logic;
+          opt.textContent = logic;
+          logicSelect.appendChild(opt);
+        });
+        logicSelect.classList.add('logic');
+        div.appendChild(logicSelect);
+      }
+
+      const fieldSelect = document.createElement('select');
+      fields.forEach(field => {
+        const opt = document.createElement('option');
+        opt.value = field;
+        opt.textContent = field;
+        fieldSelect.appendChild(opt);
+      });
+
+      const opSelect = document.createElement('select');
+      operators.forEach(op => {
+        const opt = document.createElement('option');
+        opt.value = op;
+        opt.textContent = op;
+        opSelect.appendChild(opt);
+      });
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.placeholder = 'Valor';
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.innerHTML = '❌';
+      deleteBtn.type = 'button';
+      deleteBtn.classList.add('delete-btn');
+      deleteBtn.addEventListener('click', () => {
+        div.remove();
+      });
+
+      div.appendChild(fieldSelect);
+      div.appendChild(opSelect);
+      div.appendChild(input);
+      div.appendChild(deleteBtn);
+
+      return div;
+    }
+
+    function resetConditions() {
+      conditionsContainer.innerHTML = '';
+    }
+
+    tableSelect.addEventListener('change', () => {
+      resetConditions();
+    });
+
+    addConditionBtn.addEventListener('click', () => {
+      const table = tableSelect.value;
+      if (!table || !tableFields[table]) {
+        alert('Primero selecciona una tabla.');
+        return;
+      }
+      const showLogic = conditionsContainer.children.length > 0;
+      const row = createConditionRow(tableFields[table], showLogic);
+      conditionsContainer.appendChild(row);
+    });
+
+    form.addEventListener('submit', (e) => {
+      const parts = [];
+
+      Array.from(conditionsContainer.children).forEach(cond => {
+        const selects = cond.querySelectorAll('select');
+        const input = cond.querySelector('input');
+
+        const logic = selects.length === 3 ? selects[0].value : null;
+        const field = selects.length === 3 ? selects[1].value : selects[0].value;
+        const operator = selects.length === 3 ? selects[2].value : selects[1].value;
+        const value = input.value.trim();
+
+        const formattedValue = isNaN(value) ? `'${value}'` : value;
+        const condition = `${field} ${operator} ${formattedValue}`;
+
+        if (logic) {
+          parts.push(`${logic} ${condition}`);
+        } else {
+          parts.push(condition);
+        }
+      });
+
+      const finalExpression = parts.join(' ');
+      conditionsInput.value = finalExpression;
+    });
+  </script>
+
+</body>
+</html>
+
