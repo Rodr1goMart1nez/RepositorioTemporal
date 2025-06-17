@@ -1,121 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Contador de Pedido</title>
-  <style>
-    body {
-      background: #fafafa;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .comic-dialog {
-      position: relative;
-      background: #fff;
-      padding: 20px;
-      border-radius: 36px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-      border: 3px solid #5b5b5b;
-      font-size: 1.35em;
-      max-width: 700px;
-      text-align: center;
-      color: #383838; /* gris elegante */
-      display: inline-block;
-      white-space: nowrap; /* Texto en una sola línea */
-    }
-    .comic-dialog::after {
-      content: '';
-      position: absolute;
-      bottom: -28px;
-      left: 70px;
-      width: 0;
-      height: 0;
-      border-left: 24px solid transparent;
-      border-right: 24px solid transparent;
-      border-top: 28px solid #fff;
-      filter: drop-shadow(0 0 0 #222);
-    }
-    .comic-dialog::before {
-      content: '';
-      position: absolute;
-      bottom: -32px;
-      left: 67px;
-      width: 0;
-      height: 0;
-      border-left: 27px solid transparent;
-      border-right: 27px solid transparent;
-      border-top: 32px solid #6d6d6d;
-    }
-    .contador {
-      color: #111;
-      font-weight: bold;
-      font-size: 1.2em;
-      font-family: monospace;
-      margin: 0 0.25em;
-      display: inline-block;
-    }
-  </style>
-</head>
-<body>
-  <div class="comic-dialog">
-    Tu pedido se gestionará en
-    <span class="contador" id="contador">05:00</span>
-    minutos
-  </div>
-  <script>
-    function actualizarContador() {
-      const ahora = new Date();
-      const minutos = ahora.getMinutes();
-      const segundos = ahora.getSeconds();
-      const minutosDesdeMultiplo = minutos % 5;
-      const segundosTranscurridos = minutosDesdeMultiplo * 60 + segundos;
-      const restante = 5 * 60 - segundosTranscurridos;
-      const min = Math.floor(restante / 60);
-      const seg = restante % 60;
-      const minStr = min.toString().padStart(2, '0');
-      const segStr = seg.toString().padStart(2, '0');
-      document.getElementById('contador').textContent = `${minStr}:${segStr}`;
-    }
-    setInterval(actualizarContador, 1000);
-    actualizarContador();
-  </script>
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -124,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
-    <title>SQLITO</title>
+    <title>Nexus-7</title>
     {% include "contra_index.html" %}
     <style>
         body {
@@ -134,20 +20,21 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: #fffaee;
         }
         .header {
             width: 100%;
-            padding: 10px 0;
-            background-color: #b8b7b7;
+            padding: 18px 0;
+            background-color: #505444;
             color: white;
             text-align: center;
             font-size: 34px;
             font-family: "Russo One", sans-serif;
-            border-bottom-left-radius: 15px;
-            border-bottom-right-radius: 15px;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+            box-shadow: 0 8px 10px rgba(0, 0, 0, 0.1);
         }
-        .main-section {
+        .main-section, .main-section-reverse {
             display: flex;
             flex-direction: row;
             align-items: flex-start;
@@ -160,12 +47,27 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-            padding: 20px;
+            padding: 35px;
             background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             max-width: 600px;
             min-width: 380px;
+            margin-top: 100px;
+            margin-right: 50px;
+        }
+        .container-reverse {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 35px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            min-width: 380px;
+            margin-top: 100px;
+            margin-left: 50px;
         }
         .form-group {
             display: flex;
@@ -184,21 +86,20 @@
             display: block;
             width: 100%;
             padding: 10px;
-            background-color: #ff9900;
+            background-color: #ffe180;
             color: rgb(13, 11, 11);
             border: none;
             border-radius: 4px;
             cursor: pointer;
             margin: 20px auto 0;
+            margin-left: 50%;
         }
         .submit-button:hover {
-            background-color: #f66200;
+            background-color: #f8edc9;
         }
         .form-group input[type="text"] {
             width: 95%;
         }
-
-        /* Lado visual derecho */
         .visual-col {
             display: flex;
             flex-direction: column;
@@ -207,18 +108,20 @@
         }
         .comic-dialog {
             background: #fff;
-            padding: 1.2em 2.5em 1.5em 2em;
+            padding: 17px;
             border-radius: 36px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-            border: 3px solid #222;
+            border: 3px solid #989898;
             font-size: 1.25em;
-            color: #757575;
+            color: #2b2b2b;
             display: inline-block;
             white-space: nowrap;
             z-index: 10;
             text-align: center;
-            margin-bottom: 18px;
+            margin-top: 30px;
             position: relative;
+            margin-left: 20px;
+            font-family: "Russo One", sans-serif;
         }
         .comic-dialog::after {
             content: '';
@@ -241,7 +144,7 @@
             height: 0;
             border-left: 27px solid transparent;
             border-right: 27px solid transparent;
-            border-top: 32px solid #222;
+            border-top: 32px solid #989898;
         }
         .contador {
             color: #111;
@@ -254,11 +157,9 @@
         .main-img {
             display: block;
             max-width: 350px;
-            border-radius: 18px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.12);
         }
         @media (max-width: 900px) {
-            .main-section {
+            .main-section, .main-section-reverse {
                 flex-direction: column;
                 align-items: center;
                 gap: 20px;
@@ -266,74 +167,77 @@
             .visual-col {
                 margin-top: 20px;
             }
+            .container,
+            .container-reverse {
+                margin-left: 0;
+                margin-right: 0;
+            }
         }
     </style>
 </head>
-
 <body>
     <div class="header">
         Nexus-7
     </div>
 
+    <!-- Sección original -->
     <div class="main-section">
         <form class="container" action="/contra/grafico_interactivo/" method="post">
             {% csrf_token %}
             <div class="form-group">
-                <label for="item1">PINES</label>
+                <label for="item1">Pines</label>
                 <select id="item1" name="PINES">
-                    <option value=1>TODO</option>
+                    <option value=1>Todo</option>
                     <option value="acceso">Acceso</option>
                     <option value="transaccion">Transaccion</option>
-                    <option value=0>NO</option>
+                    <option value=0>No</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="item2">LOGS</label>
+                <label for="item2">Logs</label>
                 <select id="item2" name="LOGS">
-                    <option value=1>TODO</option>
+                    <option value=1>Todo</option>
                     <option value=2025>2025</option>
                     <option value=2024>2024</option>
-                    <option value=0>NO</option>
+                    <option value=0>No</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="item3">Transferencias</label>
                 <select id="item3" name="TRANS">
-                    <option value=1>TODO</option>
-                    <option value="recibidas">Recibidas</option>
-                    <option value="enviadas">Enviadas</option>
-                    <option value=0>NO</option>
+                    <option value=1>Enviadas</option>
+                    <option value=0>No</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="item4">Pago de Servicios</label>
                 <select id="item4" name="PAGOS">
-                    <option value=1>SI</option>
-                    <option value=0>NO</option>
+                    <option value=1>Si</option>
+                    <option value=0>No</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="item5">ITOKEN</label>
+                <label for="item5">Itoken</label>
                 <select id="item5" name="ITOKEN">
-                    <option value=1>SOLO</option>
-                    <option value="otp">OTP</option>
-                    <option value=0>NO</option>
+                    <option value=1>Solo</option>
+                    <option value="otp">+ OTP</option>
+                    <option value=0>No</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="item6">TOKENIZATION</label>
+                <label for="item6">Tokenizadas</label>
                 <select id="item6" name="TOKEN">
-                    <option value=1>SI</option>
-                    <option value=0>NO</option>
+                    <option value=1>Si</option>
+                    <option value=0>No</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="item7">PAGO TC</label>
+                <label for="item7">Pago TC</label>
                 <select id="item7" name="PAGOTC">
                     <option value=2025>2025</option>
                     <option value=2024>2024</option>
                     <option value=2023>2023</option>
-                    <option value=0>NO</option>
+                    <option value=0>No</option>
                 </select>
             </div>
             <div class="form-group" style="grid-column: span 2;">
@@ -341,12 +245,16 @@
                 <input type="text" name="CLIENTE" placeholder="Ingrese el número de cliente" required>
             </div>
             <div class="form-group">
-                <label for="item8">USUARIO</label>
+                <label for="item8">Usuario</label>
                 <select id="item8" name="USER">
                     <option value="ERWINC">ERWINC</option>
                     <option value="ALVAROM">ALVAROM</option>
                     <option value="WALTERB">WALTERB</option>
                     <option value="CLAUDIAC">CLAUDIAC</option>
+                    <option value="NICOLASB">NICOLASB</option>
+                    <option value="ALANC">ALANC</option>
+                    <option value="LIZMA">LIZMA</option>
+                    <option value="CAROLINF">CAROLINF</option>
                 </select>
             </div>
             <div class="form-group" style="grid-column: span 1;">
@@ -362,8 +270,100 @@
             <img class="main-img" src="{% static 'imgs/contra/img/Copilot_20250612_161931-min.png' %}" alt="Copilot">
         </div>
     </div>
+
+    <!-- Sección duplicada, invertida -->
+    <div class="main-section-reverse" style="margin-top: 0;">
+        <div class="visual-col">
+            <img class="main-img" src="{% static 'imgs/contra/img/Copilot_20250612_161931-min.png' %}" alt="Copilot">
+            <div class="comic-dialog">
+                Tu pedido se gestionará en
+                <span class="contador" id="contador2">05:00</span>
+                minutos
+            </div>
+        </div>
+        <form class="container-reverse" action="/contra/grafico_interactivo/" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="item1b">Pines</label>
+                <select id="item1b" name="PINES">
+                    <option value=1>Todo</option>
+                    <option value="acceso">Acceso</option>
+                    <option value="transaccion">Transaccion</option>
+                    <option value=0>No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item2b">Logs</label>
+                <select id="item2b" name="LOGS">
+                    <option value=1>Todo</option>
+                    <option value=2025>2025</option>
+                    <option value=2024>2024</option>
+                    <option value=0>No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item3b">Transferencias</label>
+                <select id="item3b" name="TRANS">
+                    <option value=1>Enviadas</option>
+                    <option value=0>No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item4b">Pago de Servicios</label>
+                <select id="item4b" name="PAGOS">
+                    <option value=1>Si</option>
+                    <option value=0>No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item5b">Itoken</label>
+                <select id="item5b" name="ITOKEN">
+                    <option value=1>Solo</option>
+                    <option value="otp">+ OTP</option>
+                    <option value=0>No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item6b">Tokenizadas</label>
+                <select id="item6b" name="TOKEN">
+                    <option value=1>Si</option>
+                    <option value=0>No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item7b">Pago TC</label>
+                <select id="item7b" name="PAGOTC">
+                    <option value=2025>2025</option>
+                    <option value=2024>2024</option>
+                    <option value=2023>2023</option>
+                    <option value=0>No</option>
+                </select>
+            </div>
+            <div class="form-group" style="grid-column: span 2;">
+                <label for="client_numberb">Número de Cliente</label>
+                <input type="text" name="CLIENTE" placeholder="Ingrese el número de cliente" required>
+            </div>
+            <div class="form-group">
+                <label for="item8b">Usuario</label>
+                <select id="item8b" name="USER">
+                    <option value="ERWINC">ERWINC</option>
+                    <option value="ALVAROM">ALVAROM</option>
+                    <option value="WALTERB">WALTERB</option>
+                    <option value="CLAUDIAC">CLAUDIAC</option>
+                    <option value="NICOLASB">NICOLASB</option>
+                    <option value="ALANC">ALANC</option>
+                    <option value="LIZMA">LIZMA</option>
+                    <option value="CAROLINF">CAROLINF</option>
+                </select>
+            </div>
+            <div class="form-group" style="grid-column: span 1;">
+                <button type="submit" class="submit-button">Solicitar</button>
+            </div>
+        </form>
+    </div>
+
     <script>
-        function actualizarContador() {
+        function actualizarContador(id) {
             const ahora = new Date();
             const minutos = ahora.getMinutes();
             const segundos = ahora.getSeconds();
@@ -374,10 +374,14 @@
             const seg = restante % 60;
             const minStr = min.toString().padStart(2, '0');
             const segStr = seg.toString().padStart(2, '0');
-            document.getElementById('contador').textContent = `${minStr}:${segStr}`;
+            document.getElementById(id).textContent = `${minStr}:${segStr}`;
         }
-        setInterval(actualizarContador, 1000);
-        actualizarContador();
+        setInterval(function() {
+            actualizarContador('contador');
+            actualizarContador('contador2');
+        }, 1000);
+        actualizarContador('contador');
+        actualizarContador('contador2');
     </script>
 </body>
 </html>
