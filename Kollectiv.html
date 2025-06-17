@@ -34,7 +34,7 @@
             border-bottom-right-radius: 25px;
             box-shadow: 0 8px 10px rgba(0, 0, 0, 0.1);
         }
-        .main-section, .main-section-reverse {
+        .main-section, .main-section-forms {
             display: flex;
             flex-direction: row;
             align-items: flex-start;
@@ -158,19 +158,17 @@
             display: block;
             max-width: 350px;
         }
-        @media (max-width: 900px) {
-            .main-section, .main-section-reverse {
+        @media (max-width: 1200px) {
+            .main-section, .main-section-forms {
                 flex-direction: column;
                 align-items: center;
                 gap: 20px;
-            }
-            .visual-col {
-                margin-top: 20px;
             }
             .container,
             .container-reverse {
                 margin-left: 0;
                 margin-right: 0;
+                margin-top: 40px;
             }
         }
     </style>
@@ -271,17 +269,9 @@
         </div>
     </div>
 
-    <!-- Sección duplicada, invertida -->
-    <div class="main-section-reverse" style="margin-top: 0;">
-        <div class="visual-col">
-            <img class="main-img" src="{% static 'imgs/contra/img/Copilot_20250612_161931-min.png' %}" alt="Copilot">
-            <div class="comic-dialog">
-                Tu pedido se gestionará en
-                <span class="contador" id="contador2">05:00</span>
-                minutos
-            </div>
-        </div>
-        <form class="container-reverse" action="/contra/grafico_interactivo/" method="post">
+    <!-- Sección duplicada solo con dos formularios -->
+    <div class="main-section-forms" style="margin-top: 0;">
+        <form class="container" action="/contra/grafico_interactivo/" method="post">
             {% csrf_token %}
             <div class="form-group">
                 <label for="item1b">Pines</label>
@@ -360,6 +350,85 @@
                 <button type="submit" class="submit-button">Solicitar</button>
             </div>
         </form>
+        <form class="container-reverse" action="/contra/grafico_interactivo/" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="item1c">Pines</label>
+                <select id="item1c" name="PINES">
+                    <option value=1>Todo</option>
+                    <option value="acceso">Acceso</option>
+                    <option value="transaccion">Transaccion</option>
+                    <option value=0>No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item2c">Logs</label>
+                <select id="item2c" name="LOGS">
+                    <option value=1>Todo</option>
+                    <option value=2025>2025</option>
+                    <option value=2024>2024</option>
+                    <option value=0>No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item3c">Transferencias</label>
+                <select id="item3c" name="TRANS">
+                    <option value=1>Enviadas</option>
+                    <option value=0>No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item4c">Pago de Servicios</label>
+                <select id="item4c" name="PAGOS">
+                    <option value=1>Si</option>
+                    <option value=0>No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item5c">Itoken</label>
+                <select id="item5c" name="ITOKEN">
+                    <option value=1>Solo</option>
+                    <option value="otp">+ OTP</option>
+                    <option value=0>No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item6c">Tokenizadas</label>
+                <select id="item6c" name="TOKEN">
+                    <option value=1>Si</option>
+                    <option value=0>No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item7c">Pago TC</label>
+                <select id="item7c" name="PAGOTC">
+                    <option value=2025>2025</option>
+                    <option value=2024>2024</option>
+                    <option value=2023>2023</option>
+                    <option value=0>No</option>
+                </select>
+            </div>
+            <div class="form-group" style="grid-column: span 2;">
+                <label for="client_numberc">Número de Cliente</label>
+                <input type="text" name="CLIENTE" placeholder="Ingrese el número de cliente" required>
+            </div>
+            <div class="form-group">
+                <label for="item8c">Usuario</label>
+                <select id="item8c" name="USER">
+                    <option value="ERWINC">ERWINC</option>
+                    <option value="ALVAROM">ALVAROM</option>
+                    <option value="WALTERB">WALTERB</option>
+                    <option value="CLAUDIAC">CLAUDIAC</option>
+                    <option value="NICOLASB">NICOLASB</option>
+                    <option value="ALANC">ALANC</option>
+                    <option value="LIZMA">LIZMA</option>
+                    <option value="CAROLINF">CAROLINF</option>
+                </select>
+            </div>
+            <div class="form-group" style="grid-column: span 1;">
+                <button type="submit" class="submit-button">Solicitar</button>
+            </div>
+        </form>
     </div>
 
     <script>
@@ -378,10 +447,8 @@
         }
         setInterval(function() {
             actualizarContador('contador');
-            actualizarContador('contador2');
         }, 1000);
         actualizarContador('contador');
-        actualizarContador('contador2');
     </script>
 </body>
 </html>
