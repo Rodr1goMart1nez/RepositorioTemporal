@@ -42,16 +42,7 @@
             margin-top: 30px;
             gap: 40px;
         }
-        .forms-section-vertical {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 0px;
-            gap: 0;
-        }
-        .container,
-        .container-reverse {
+        .container, .container-reverse {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
@@ -61,6 +52,9 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             max-width: 600px;
             min-width: 380px;
+            margin-top: 40px;
+        }
+        .container-reverse {
             margin-top: 40px;
         }
         .form-group {
@@ -90,6 +84,12 @@
             cursor: pointer;
             margin: 20px auto 0;
             margin-left: 50%;
+        }
+        .submit1{
+            margin-left: 10%;
+        }
+        .submit-button2{
+            margin-left: 10%;
         }
         .submit-button:hover {
             background-color: #f8edc9;
@@ -156,11 +156,11 @@
             max-width: 350px;
         }
         .division-hr {
-            width: 90%;
+            width: 100%;
             margin: 40px auto 0 auto;
-            border: none;
+            border: 1px solid rgb(128, 128, 128);
             height: 2px;
-            background-color: #d3d3d3;
+            background-color: #000000;
         }
         .form-title {
             grid-column: 1 / -1;
@@ -171,12 +171,20 @@
             color: #333;
             letter-spacing: 1px;
         }
+        /* Oculta el card de SQL */
+        /*#card-sql { display: none !important; }*/
         @media (max-width: 1200px) {
-            .container,
-            .container-reverse {
+            .main-section {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .container, .container-reverse {
                 margin-left: 0;
                 margin-right: 0;
                 margin-top: 40px;
+            }
+            .visual-col {
+                margin-top: 30px;
             }
         }
     </style>
@@ -186,7 +194,7 @@
         Nexus-7
     </div>
 
-    <!-- Sección original -->
+    <!-- Sección principal con formulario de pedido + pedido masivo + imagen/dialogo -->
     <div class="main-section">
         <form class="container" action="/contra/grafico_interactivo/" method="post">
             {% csrf_token %}
@@ -246,9 +254,12 @@
                     <option value=0>No</option>
                 </select>
             </div>
-            <div class="form-group" style="grid-column: span 2;">
-                <label for="client_number">Número de Cliente</label>
-                <input type="text" name="CLIENTE" placeholder="Ingrese el número de cliente" required>
+            <div class="form-group">
+                <label for="item7c">Revision Logs</label>
+                <select id="item7c" name="REVISION">
+                    <option value=1>Si ⚠️</option>
+                    <option value=0>No</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="item8">Usuario</label>
@@ -263,108 +274,19 @@
                     <option value="CAROLINF">CAROLINF</option>
                 </select>
             </div>
-            <div class="form-group" style="grid-column: span 1;">
-                <button type="submit" class="submit-button">Solicitar</button>
-            </div>
-        </form>
-        <div class="visual-col">
-            <div class="comic-dialog">
-                Tu pedido se gestionará en
-                <span class="contador" id="contador">05:00</span>
-                minutos
-            </div>
-            <img class="main-img" src="{% static 'imgs/contra/img/Copilot_20250612_161931-min.png' %}" alt="Copilot">
-        </div>
-    </div>
-
-    <hr class="division-hr">
-
-    <!-- Sección de formularios verticales -->
-    <div class="forms-section-vertical">
-        <form class="container" action="/contra/grafico_interactivo/" method="post">
-            {% csrf_token %}
-            <div class="form-title">Formulario Secundario</div>
-            <div class="form-group">
-                <label for="item1b">Pines</label>
-                <select id="item1b" name="PINES">
-                    <option value=1>Todo</option>
-                    <option value="acceso">Acceso</option>
-                    <option value="transaccion">Transaccion</option>
-                    <option value=0>No</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="item2b">Logs</label>
-                <select id="item2b" name="LOGS">
-                    <option value=1>Todo</option>
-                    <option value=2025>2025</option>
-                    <option value=2024>2024</option>
-                    <option value=0>No</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="item3b">Transferencias</label>
-                <select id="item3b" name="TRANS">
-                    <option value=1>Enviadas</option>
-                    <option value=0>No</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="item4b">Pago de Servicios</label>
-                <select id="item4b" name="PAGOS">
-                    <option value=1>Si</option>
-                    <option value=0>No</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="item5b">Itoken</label>
-                <select id="item5b" name="ITOKEN">
-                    <option value=1>Solo</option>
-                    <option value="otp">+ OTP</option>
-                    <option value=0>No</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="item6b">Tokenizadas</label>
-                <select id="item6b" name="TOKEN">
-                    <option value=1>Si</option>
-                    <option value=0>No</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="item7b">Pago TC</label>
-                <select id="item7b" name="PAGOTC">
-                    <option value=2025>2025</option>
-                    <option value=2024>2024</option>
-                    <option value=2023>2023</option>
-                    <option value=0>No</option>
-                </select>
-            </div>
             <div class="form-group" style="grid-column: span 2;">
-                <label for="client_numberb">Número de Cliente</label>
+                <label for="client_number">Número de Cliente</label>
                 <input type="text" name="CLIENTE" placeholder="Ingrese el número de cliente" required>
             </div>
-            <div class="form-group">
-                <label for="item8b">Usuario</label>
-                <select id="item8b" name="USER">
-                    <option value="ERWINC">ERWINC</option>
-                    <option value="ALVAROM">ALVAROM</option>
-                    <option value="WALTERB">WALTERB</option>
-                    <option value="CLAUDIAC">CLAUDIAC</option>
-                    <option value="NICOLASB">NICOLASB</option>
-                    <option value="ALANC">ALANC</option>
-                    <option value="LIZMA">LIZMA</option>
-                    <option value="CAROLINF">CAROLINF</option>
-                </select>
-            </div>
             <div class="form-group" style="grid-column: span 1;">
-                <button type="submit" class="submit-button">Solicitar</button>
+                <button type="submit" class="submit-button submit1">Solicitar</button>
             </div>
         </form>
 
-        <form class="container-reverse" action="/contra/grafico_interactivo/" method="post" enctype="multipart/form-data">
+        <!-- Formulario Masivo entre el form principal y la imagen/dialogo -->
+        <form class="container-reverse" action="/contra/pedidoMasivo/" method="post" enctype="multipart/form-data" style="margin-top: 40px;">
             {% csrf_token %}
-            <div class="form-title">Formulario con Archivo Excel</div>
+            <div class="form-title">Pedido Masivo</div>
             <div class="form-group">
                 <label for="item1c">Pines</label>
                 <select id="item1c" name="PINES">
@@ -421,9 +343,12 @@
                     <option value=0>No</option>
                 </select>
             </div>
-            <div class="form-group" style="grid-column: span 2;">
-                <label for="client_numberc">Número de Cliente</label>
-                <input type="text" name="CLIENTE" placeholder="Ingrese el número de cliente" required>
+            <div class="form-group">
+                <label for="item7c">Revision Logs</label>
+                <select id="item7c" name="REVISION">
+                    <option value=1>Si ⚠️</option>
+                    <option value=0>No</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="item8c">Usuario</label>
@@ -442,11 +367,66 @@
                 <label for="excel_file">Archivo Excel</label>
                 <input type="file" id="excel_file" name="EXCEL_FILE" accept=".xlsx,.xls" required>
             </div>
-            <div class="form-group" style="grid-column: span 1;">
-                <button type="submit" class="submit-button">Solicitar</button>
+            <div class="form-group form-group3" style="grid-column: span 1;">
+                <button type="submit" class="submit-button submit-button2">Solicitar</button>
             </div>
         </form>
+
+        <div class="visual-col">
+            <div class="comic-dialog">
+                Tu pedido se gestionará en
+                <span class="contador" id="contador">05:00</span>
+                minutos
+            </div>
+            <img class="main-img" src="{% static 'imgs/contra/img/Copilot_20250612_161931-min.png' %}" alt="Copilot">
+        </div>
     </div>
+
+    <hr class="division-hr">
+
+    <!-- Sección de formularios verticales - OCULTA/COMENTADA -->
+    <!--
+    <div id="card-sql" class="card">
+
+        <h2>Formulario SQL</h2>
+
+        <form id="queryForm" action="/contra/FormularioSQL/" method="POST">
+        {% csrf_token %}
+        <div class="form-row">
+            <div>
+            <label for="tableSelect">Tabla</label>
+            <select id="tableSelect" name="table" required>
+                <option value="">Seleccionar</option>
+                <option value="TRANSF_CLIENTE">TRANSF_CLIENTE</option>
+                <option value="LOGS">LOGS</option>
+                <option value="TRANSF_ORDENANTE">TRANSF_ORDENANTE</option>
+            </select>
+            </div>
+        </div>
+
+        <div id="conditionsContainer"></div>
+
+        <div class="form-group form-groupSQL">
+            <label for="item8">Usuario</label>
+            <select id="item8" name="USER">
+                <option value="ERWINC">ERWINC</option>
+                <option value="ALVAROM">ALVAROM</option>
+                <option value="WALTERB">WALTERB</option>
+                <option value="CLAUDIAC">CLAUDIAC</option>
+                <option value="NICOLASB">NICOLASB</option>
+                <option value="ALANC">ALANC</option>
+                <option value="LIZMA">LIZMA</option>
+                <option value="CAROLINF">CAROLINF</option>
+            </select>
+        </div>
+
+        <input type="hidden" name="conditions_text" id="conditions_text">
+
+        <button type="button" id="addCondition" class="btn">+ Añadir condición</button>
+        <button type="submit" class="btn">Solicitar</button>
+        </form>
+    </div>
+    -->
 
     <script>
         function actualizarContador(id) {
@@ -467,155 +447,13 @@
         }, 1000);
         actualizarContador('contador');
     </script>
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Formulario Condicional SQL</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #fdf7ef;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding-top: 50px;
-    }
-
-    .card {
-      background: #fff;
-      padding: 30px 40px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      max-width: 700px;
-      width: 100%;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 25px;
-      font-weight: bold;
-      font-size: 24px;
-      color: #333;
-    }
-
-    .form-row {
-      display: flex;
-      gap: 15px;
-      justify-content: space-between;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    select, input[type="text"] {
-      padding: 8px 10px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      min-width: 140px;
-    }
-
-    .btn {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: background 0.2s ease;
-    }
-
-    .btn:hover {
-      background-color: #0056b3;
-    }
-
-    .condition {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .delete-btn {
-      background-color: transparent;
-      border: none;
-      color: red;
-      font-size: 20px;
-      cursor: pointer;
-    }
-
-    .delete-btn:hover {
-      color: darkred;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="card">
-    <h2>Formulario Condicional SQL</h2>
-
-    <form id="queryForm" action="/procesar" method="POST">
-      <div class="form-row">
-        <div>
-          <label for="tableSelect">Tabla</label>
-          <select id="tableSelect" name="table" required>
-            <option value="">Seleccionar</option>
-            <option value="users">users</option>
-            <option value="products">products</option>
-            <option value="orders">orders</option>
-          </select>
-        </div>
-      </div>
-
-      <div id="conditionsContainer"></div>
-
-      <input type="hidden" name="conditions_text" id="conditions_text">
-
-      <button type="button" id="addCondition" class="btn">+ Añadir condición</button>
-      <button type="submit" class="btn">Enviar</button>
-    </form>
-  </div>
-
-  <script>
+    <script>
+    // El script de condiciones SQL también queda comentado
+    /*
     const tableFields = {
-      users: ['id', 'name', 'email', 'age'],
-      products: ['id', 'name', 'price', 'category'],
-      orders: ['id', 'user_id', 'product_id', 'status']
+      TRANSF_CLIENTE: ['T.CTACRE','T.CTADEB','T.NROCLI'],
+      LOGS: ['usuario_id', 'b.dev_id'],
+      TRANSF_ORDENANTE: ['QPYCCNM', 'QBNCCNM']
     };
 
     const operators = ['=', '!=', '<', '>', 'LIKE'];
@@ -710,7 +548,7 @@
         const operator = selects.length === 3 ? selects[2].value : selects[1].value;
         const value = input.value.trim();
 
-        const formattedValue = isNaN(value) ? `'${value}'` : value;
+        const formattedValue = isNaN(value) ? `'${value}'` : `'${value}'`;
         const condition = `${field} ${operator} ${formattedValue}`;
 
         if (logic) {
@@ -723,8 +561,7 @@
       const finalExpression = parts.join(' ');
       conditionsInput.value = finalExpression;
     });
-  </script>
-
+    */
+    </script>
 </body>
 </html>
-
