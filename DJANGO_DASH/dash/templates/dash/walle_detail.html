@@ -1,0 +1,126 @@
+{% extends 'dash/base.html' %}
+
+{% block title %}
+{% if walle %}Detalle Proceso {{ walle.process_id|floatformat:"0" }}{% else %}Nuevo Proceso{% endif %}
+{% endblock %}
+
+{% block content %}
+<div>
+    <a href="{% url 'walle_list' %}" class="btn btn-back">← Volver al Listado</a>
+</div>
+
+<h1>{% if walle %}Detalle del Proceso #{{ walle.process_id|floatformat:"0" }}{% else %}Nuevo Proceso{% endif %}</h1>
+
+<form method="post" class="card">
+    {% csrf_token %}
+    <div class="detail-grid">
+        <div class="section-title">Información General</div>
+
+        <div class="detail-item">
+            <label for="{{ form.process_id.id_for_label }}" class="detail-label">Process ID</label>
+            {{ form.process_id }}
+            {% if form.process_id.errors %}
+            <div style="color: red; font-size: 0.8rem;">{{ form.process_id.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="detail-item">
+            <label for="{{ form.nombre.id_for_label }}" class="detail-label">Nombre</label>
+            {{ form.nombre }}
+        </div>
+        <div class="detail-item">
+            <label for="{{ form.impacto.id_for_label }}" class="detail-label">Impacto</label>
+            {{ form.impacto }}
+        </div>
+        <div class="detail-item">
+            <label for="{{ form.status_id.id_for_label }}" class="detail-label">Status ID</label>
+            {{ form.status_id }}
+        </div>
+        <div class="detail-item">
+            <label for="{{ form.priority_id.id_for_label }}" class="detail-label">Priority ID</label>
+            {{ form.priority_id }}
+        </div>
+
+        <div class="section-title">Detalles de la Operación (Editable)</div>
+
+        <div class="detail-item">
+            <label for="{{ form.operacion.id_for_label }}" class="detail-label">Operación</label>
+            {{ form.operacion }}
+        </div>
+        <div class="detail-item">
+            <label for="{{ form.op_desc.id_for_label }}" class="detail-label">Descripción Op.</label>
+            {{ form.op_desc }}
+        </div>
+
+        <div class="section-title">Bloqueos (Editable)</div>
+
+        <div class="detail-item">
+            <label for="{{ form.bloqueo_canal.id_for_label }}" class="detail-label">Bloqueo Canal</label>
+            {{ form.bloqueo_canal }}
+        </div>
+        <div class="detail-item">
+            <label for="{{ form.bloqueo_tc_td.id_for_label }}" class="detail-label">Bloqueo TC/TD</label>
+            {{ form.bloqueo_tc_td }}
+        </div>
+        <div class="detail-item">
+            <label for="{{ form.bloqueo_fondo.id_for_label }}" class="detail-label">Bloqueo Fondo</label>
+            {{ form.bloqueo_fondo }}
+        </div>
+        <div class="detail-item">
+            <label for="{{ form.bloqueo_otro.id_for_label }}" class="detail-label">Bloqueo Otro</label>
+            {{ form.bloqueo_otro }}
+        </div>
+
+        <div class="section-title">Responsables (Editable)</div>
+
+        <div class="detail-item">
+            <label for="{{ form.gerente.id_for_label }}" class="detail-label">Gerente</label>
+            {{ form.gerente }}
+        </div>
+        <div class="detail-item">
+            <label for="{{ form.ingresante.id_for_label }}" class="detail-label">Ingresante</label>
+            {{ form.ingresante }}
+        </div>
+        <div class="detail-item">
+            <label for="{{ form.agencia.id_for_label }}" class="detail-label">Agencia</label>
+            {{ form.agencia }}
+        </div>
+
+
+        {% if walle %}
+        <div class="section-title">Información de Solo Lectura</div>
+
+        <div class="detail-item">
+            <span class="detail-label">Fecha Creación</span>
+            <span class="detail-value">{{ walle.creation_date|date:"d/m/Y H:i" }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Fecha y Hora</span>
+            <span class="detail-value">{{ walle.fecha_hora|date:"d/m/Y H:i:s" }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Nro. Documento</span>
+            <span class="detail-value">{{ walle.nro_doc|default:"-" }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Nro. Cliente</span>
+            <span class="detail-value">{{ walle.nro_cliente|default:"-" }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Monto Total</span>
+            <span class="detail-value">{{ walle.moneda|default:"$" }} {{ walle.monto_total|floatformat:2 }}</span>
+        </div>
+        {% endif %}
+
+        <div class="section-title" style="grid-column: 1 / -1; margin-top: 1rem;">Comentarios (Editable)</div>
+        <div class="detail-item" style="grid-column: 1 / -1;">
+            {{ form.comentario }}
+        </div>
+
+        <div style="grid-column: 1 / -1; margin-top: 2rem; display: flex; justify-content: flex-end;">
+            <button type="submit" class="btn btn-primary" style="padding: 0.75rem 2rem; font-size: 1rem;">Guardar
+                Cambios</button>
+        </div>
+    </div>
+</form>
+{% endblock %}

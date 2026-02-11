@@ -1,0 +1,40 @@
+from django.db import models
+
+class WalleBpm(models.Model):
+    process_id = models.FloatField(db_column='PROCESS_ID', primary_key=True)
+    nro_doc = models.CharField(db_column='NRO_DOC', max_length=255, blank=True, null=True)
+    nro_cliente = models.CharField(db_column='NRO_CLIENTE', max_length=255, blank=True, null=True)
+    impacto = models.CharField(db_column='IMPACTO', max_length=255, blank=True, null=True)
+    nombre = models.CharField(db_column='NOMBRE', max_length=255, blank=True, null=True)
+    cta = models.CharField(db_column='CTA', max_length=255, blank=True, null=True)
+    brinda_dato = models.CharField(db_column='BRINDA_DATO', max_length=255, blank=True, null=True)
+    dato_tipo = models.CharField(db_column='DATO_TIPO', max_length=255, blank=True, null=True)
+    op_desc = models.CharField(db_column='OP_DESC', max_length=255, blank=True, null=True)
+    fecha_hora = models.DateTimeField(db_column='FECHA_HORA', blank=True, null=True)
+    bloqueo_canal = models.CharField(db_column='BLOQUEO_CANAL', max_length=255, blank=True, null=True)
+    bloqueo_tc_td = models.CharField(db_column='BLOQUEO_TC_TD', max_length=255, blank=True, null=True)
+    bloqueo_fondo = models.CharField(db_column='BLOQUEO_FONDO', max_length=255, blank=True, null=True)
+    bloqueo_otro = models.CharField(db_column='BLOQUEO_OTRO', max_length=255, blank=True, null=True)
+    operacion = models.CharField(db_column='OPERACION', max_length=255, blank=True, null=True)
+    process_type_id = models.FloatField(db_column='PROCESS_TYPE_ID', blank=True, null=True)
+    id_relacionado = models.FloatField(db_column='ID_RELACIONADO', blank=True, null=True)
+    status_id = models.FloatField(db_column='STATUS_ID', blank=True, null=True)
+    priority_id = models.FloatField(db_column='PRIORITY_ID', blank=True, null=True)
+    creation_date = models.DateTimeField(db_column='CREATION_DATE', blank=True, null=True)
+    comentario = models.TextField(db_column='COMENTARIO', blank=True, null=True)
+    gerente = models.CharField(db_column='GERENTE', max_length=255, blank=True, null=True)
+    ingresante = models.CharField(db_column='INGRESANTE', max_length=255, blank=True, null=True)
+    agencia_ingresante = models.CharField(db_column='AGENCIA_INGRESANTE', max_length=255, blank=True, null=True)
+    monto_total = models.FloatField(db_column='MONTO_TOTAL', blank=True, null=True)
+    cantidad_comprobantes = models.FloatField(db_column='CANTIDAD_COMPROBANTES', blank=True, null=True)
+    tipo_de_cuenta = models.CharField(db_column='TIPO_DE_CUENTA', max_length=255, blank=True, null=True)
+    moneda = models.CharField(db_column='MONEDA', max_length=255, blank=True, null=True)
+    nombre_proceso = models.CharField(db_column='NOMBRE_PROCESO', max_length=255, blank=True, null=True)
+    empresa_pgs = models.CharField(db_column='EMPRESA_PGS', max_length=255, blank=True, null=True)
+    agencia = models.CharField(db_column='AGENCIA', max_length=255, blank=True, null=True)
+    pin_acceso = models.CharField(db_column='PIN_ACCESO', max_length=255, blank=True, null=True)
+    pin_transaccion = models.CharField(db_column='PIN_TRANSACCION', max_length=255, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'WALLE_BPM'
