@@ -1,0 +1,88 @@
+USE [servidor]
+GO
+
+/****** Object:  Table [dbo].[WALLE_BPM]    Script Date: 2/17/2026 3:42:29 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[WALLE_BPM](
+	[PROCESS_ID] [float] NULL,
+	[NRO_DOC] [nvarchar](255) NULL,
+	[NRO_CLIENTE] [nvarchar](255) NULL,
+	[IMPACTO] [nvarchar](255) NULL,
+	[NOMBRE] [nvarchar](255) NULL,
+	[CTA] [nvarchar](255) NULL,
+	[BRINDA_DATO] [nvarchar](255) NULL,
+	[DATO_TIPO] [nvarchar](255) NULL,
+	[OP_DESC] [nvarchar](255) NULL,
+	[FECHA_HORA] [datetime] NULL,
+	[BLOQUEO_CANAL] [nvarchar](255) NULL,
+	[BLOQUEO_TC_TD] [nvarchar](255) NULL,
+	[BLOQUEO_FONDO] [nvarchar](255) NULL,
+	[BLOQUEO_OTRO] [nvarchar](255) NULL,
+	[OPERACION] [nvarchar](255) NULL,
+	[PROCESS_TYPE_ID] [float] NULL,
+	[ID_RELACIONADO] [float] NULL,
+	[STATUS_ID] [varchar](100) NULL,
+	[PRIORITY_ID] [float] NULL,
+	[CREATION_DATE] [datetime] NULL,
+	[COMENTARIO] [nvarchar](max) NULL,
+	[GERENTE] [nvarchar](255) NULL,
+	[INGRESANTE] [nvarchar](255) NULL,
+	[AGENCIA_INGRESANTE] [nvarchar](255) NULL,
+	[MONTO_TOTAL] [float] NULL,
+	[CANTIDAD_COMPROBANTES] [float] NULL,
+	[TIPO_DE_CUENTA] [nvarchar](255) NULL,
+	[MONEDA] [nvarchar](255) NULL,
+	[NOMBRE_PROCESO] [nvarchar](255) NULL,
+	[EMPRESA_PGS] [nvarchar](255) NULL,
+	[AGENCIA] [nvarchar](255) NULL,
+	[PIN_ACCESO] [nvarchar](255) NULL,
+	[PIN_TRANSACCION] [nvarchar](255) NULL,
+	[GIROS] [decimal](18, 2) NULL,
+	[OTROS] [decimal](18, 2) NULL,
+	[TD] [decimal](18, 2) NULL,
+	[TC] [decimal](18, 2) NULL,
+	[TRANSFERENCIAS_INTERNAS_SIPAP] [decimal](18, 2) NULL,
+	[PRESTAMOS_ELECTRONICOS] [decimal](18, 2) NULL,
+	[RECARGAS_BILLETERA] [decimal](18, 2) NULL,
+	[ACTIVACION_CHAT_ONLINE] [varchar](50) NULL,
+	[ALTA_TC] [varchar](50) NULL,
+	[ASIENTO_MES] [varchar](50) NULL,
+	[ASUMIDO_POR_PROVEEDORES] [varchar](50) NULL,
+	[BAN_RDIS] [varchar](50) NULL,
+	[CANAL] [varchar](50) NULL,
+	[CHEQUES_PAGADOS] [varchar](50) NULL,
+	[DEBITO_AUTOMATICO] [varchar](50) NULL,
+	[DICTAMEN] [varchar](100) NULL,
+	[FECHA_ASIENTO] [varchar](50) NULL,
+	[FECHA_CIERRE] [varchar](50) NULL,
+	[ULTIMA_MODIFICACION] [datetime] NULL,
+	[FECHA_RESPUESTA] [varchar](50) NULL,
+	[FONDOS_CLIENTE_PROTEGIDO] [varchar](50) NULL,
+	[IMPORTE_ACREDITADO_CTA] [varchar](50) NULL,
+	[IMPORTE_AFECTADO_PERDIDAS] [varchar](50) NULL,
+	[IMPORTE_RECLAMADO] [numeric](12, 2) NULL,
+	[IMPORTE_SALVADO_PROTEGIDO] [varchar](50) NULL,
+	[MES_RECLAMO] [varchar](100) NULL,
+	[MOTIVO_RECLAMO] [nvarchar](100) NULL,
+	[NUMERO_ASIENTO] [varchar](50) NULL,
+	[OTRAS_PERDIDAS_PYG] [varchar](50) NULL,
+	[OBSERVACION] [varchar](100) NULL,
+	[PAGOS_QR] [varchar](50) NULL,
+	[PAGOS_SERVICIOS] [varchar](50) NULL,
+	[PAGO_TC] [varchar](50) NULL,
+	[PAIS] [varchar](50) NULL,
+	[RESPONSABLE_ANALISIS] [varchar](50) NULL,
+	[RESUMEN_FRAUDE] [nvarchar](100) NULL,
+	[SUB_CANAL] [varchar](100) NULL,
+	[TECNOLOGIA_USADA] [varchar](100) NULL,
+	[TIPO_CAMBIO_BCP] [numeric](10, 2) NULL,
+	[USUARIO_MODIFICACION] [nvarchar](255) NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
