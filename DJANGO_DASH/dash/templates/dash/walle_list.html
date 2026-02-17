@@ -1,0 +1,134 @@
+{% extends 'dash/base.html' %}
+
+{% block title %}Wall-E{% endblock %}
+
+{% block header_actions %}
+<div style="display: flex; gap: 0.5rem;">
+    <a href="?{{ request.GET.urlencode }}&export=excel" class="btn btn-back" style="margin-bottom: 0;">
+        Descargar Excel
+    </a>
+    <a href="{% url 'walle_create' %}" class="btn btn-primary">
+        + Nuevo Proceso
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="card" style="padding: 1.5rem; margin-bottom: 2rem;">
+    <form method="get"
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; align-items: end;">
+
+        <div style="display: flex; flex-direction: column;">
+            <label for="q_process_id"
+                style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.25rem;">Process
+                ID</label>
+            <input type="number" name="q_process_id" id="q_process_id" value="{{ request.GET.q_process_id }}"
+                class="form-input" placeholder="Ej: 12345">
+        </div>
+
+        <div style="display: flex; flex-direction: column;">
+            <label for="q_nro_doc"
+                style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.25rem;">Nro.
+                Doc</label>
+            <input type="text" name="q_nro_doc" id="q_nro_doc" value="{{ request.GET.q_nro_doc }}" class="form-input"
+                placeholder="Ej: 40123456">
+        </div>
+
+        <div style="display: flex; flex-direction: column;">
+            <label for="q_nro_cliente"
+                style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.25rem;">Nro.
+                Cliente</label>
+            <input type="text" name="q_nro_cliente" id="q_nro_cliente" value="{{ request.GET.q_nro_cliente }}"
+                class="form-input" placeholder="Ej: 10001">
+        </div>
+
+        <div style="display: flex; flex-direction: column;">
+            <label for="q_status_id"
+                style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.25rem;">Status
+                ID</label>
+            <select name="q_status_id" id="q_status_id" class="form-input">
+                <option value="">--- Todos ---</option>
+                <option value="PENDIENTE" {% if request.GET.q_status_id == "PENDIENTE" %}selected{% endif %}>PENDIENTE</option>
+                <option value="CERRADO" {% if request.GET.q_status_id == "CERRADO" %}selected{% endif %}>CERRADO</option>
+                <option value="SUSPENDIDO" {% if request.GET.q_status_id == "SUSPENDIDO" %}selected{% endif %}>SUSPENDIDO</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="height: 38px; justify-content: center;">
+            Buscar
+        </button>
+
+        {% if request.GET.q_process_id or request.GET.q_nro_doc or request.GET.q_nro_cliente or request.GET.q_status_id %}
+        <a href="{% url 'walle_list' %}" class="btn btn-back"
+            style="height: 38px; justify-content: center; margin-bottom: 0; text-align: center;">
+            Limpiar
+        </a>
+        {% endif %}
+    </form>
+</div>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>Process ID</th>
+                <th>Nombre</th>
+                <th>Nro. Doc</th>
+                <th>Nro. Cliente</th>
+                <th>Fecha y Hora</th>
+                <th>Status</th>
+                <th style="width: 150px;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in walle_list %}
+            <tr>
+                <td>{{ item.process_id|floatformat:"0" }}</td>
+                <td>{{ item.nombre|default_if_none:"-" }}</td>
+                <td>{{ item.nro_doc|default_if_none:"-" }}</td>
+                <td>{{ item.nro_cliente|default_if_none:"-" }}</td>
+                <td>{{ item.fecha_hora|date:"d/m/Y H:i" }}</td>
+                <td>{{ item.status_id|default_if_none:"-" }}</td>
+                <td>
+                    <a href="{% url 'walle_detail' item.process_id %}" class="btn btn-primary">Ver Detalle</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" style="text-align: center; color: #6b7280; padding: 2rem;">No hay procesos disponibles.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Paginación y contador -->
+<div style="display: flex; flex-direction: column; align-items: center; margin-top: 1.5rem; gap: 1rem;">
+
+    <div style="font-size: 0.9rem; color: var(--text-muted);">
+        Mostrando {{ page_obj.start_index|default:"0" }} - {{ page_obj.end_index|default:"0" }} de
+        <strong>{{page_obj.paginator.count }}</strong> registros
+    </div>
+
+    {% if is_paginated %}
+    <div style="display: flex; gap: 0.5rem;">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-back">
+            &laquo; Anteriores 10
+        </a>
+        {% else %}
+        <span class="btn btn-back" style="opacity: 0.5; cursor: not-allowed">&laquo; Anteriores 10</span>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-back">
+            Siguientes 10 &raquo;
+        </a>
+        {% else %}
+        <span class="btn btn-back" style="opacity: 0.5; cursor: not-allowed">Siguientes 10 &raquo;</span>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,262 @@
+{% extends 'dash/base.html' %}
+
+{% block title %}
+{% if walle %}Detalle Proceso {{ walle.process_id|floatformat:"0" }}{% else %}Nuevo Proceso{% endif %}
+{% endblock %}
+
+{% block page_header_title %}
+    <h1>{% if walle %}Detalle #{{ walle.process_id|floatformat:"0" }}{% else %}Nuevo Proceso{% endif %}</h1>
+{% endblock %}
+
+{% block header_actions %}
+<div>
+    <a href="{% url 'walle_list' %}" class="btn btn-back" style="margin-bottom: 0;">← Volver</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<form method="post" class="card">
+    {% csrf_token %}
+    <div class="detail-grid">
+        <!-- 1) Datos de Clientes -->
+        <div class="section-title">1) Datos del Cliente</div>
+        
+        <div class="detail-item">
+            <label class="detail-label">Process ID</label>
+            {{ form.process_id }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Nro CI (Nro Doc)</label>
+            {{ form.nro_doc }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Nro de Cliente</label>
+            {{ form.nro_cliente }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Nombre</label>
+            {{ form.nombre }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Agencia</label>
+            {{ form.agencia }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Cuenta (CTA)</label>
+            {{ form.cta }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Tipo de Cuenta</label>
+            {{ form.tipo_de_cuenta }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Moneda</label>
+            {{ form.moneda }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Empresa PGS</label>
+            {{ form.empresa_pgs }}
+        </div>
+
+        <!-- 2) Pines Canales Digitales -->
+        <div class="section-title">2) Pines Canales Digitales</div>
+        
+        <div class="detail-item">
+            <label class="detail-label">Pin de Acceso</label>
+            {{ form.pin_acceso }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Pin de Transacción</label>
+            {{ form.pin_transaccion }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Activación Chat Online</label>
+            {{ form.activacion_chat_online }}
+        </div>
+
+
+        <!-- 3) Datos del Reclamo -->
+        <div class="section-title">3) Datos del Reclamo</div>
+        
+        <div class="detail-item">
+            <label class="detail-label">Fecha Creación</label>
+            {{ form.creation_date }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Ingresante</label>
+            {{ form.ingresante }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Agencia Ingresante</label>
+            {{ form.agencia_ingresante }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Brinda Dato</label>
+            {{ form.brinda_dato }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Status</label>
+            {{ form.status_id }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Impacto</label>
+            {{ form.impacto }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Motivo Reclamo</label>
+            {{ form.motivo_reclamo }}
+        </div>
+
+        <div class="detail-item">
+            <label class="detail-label">Canal</label>
+            {{ form.canal }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Sub Canal</label>
+            {{ form.sub_canal }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Fecha y Hora</label>
+            {{ form.fecha_hora }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Fecha Respuesta</label>
+            {{ form.fecha_respuesta }}
+        </div>
+
+        <div class="detail-item">
+            <label class="detail-label">Alta TC</label>
+            {{ form.alta_tc }}
+        </div>
+
+        <!-- 4) Productos afectados -->
+        <div class="section-title">4) Productos afectados</div>
+        
+        <div class="detail-item" style="grid-column: 1 / -1;">
+            <label class="detail-label">Comentario</label>
+            {{ form.comentario }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Operación</label>
+            {{ form.operacion }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Giros</label>
+            {{ form.giros }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Otros</label>
+            {{ form.otros }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">TD</label>
+            {{ form.td }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">TC</label>
+            {{ form.tc }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Transf. Internas SIPAP</label>
+            {{ form.transferencias_internas_sipap }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Préstamos Electrónicos</label>
+            {{ form.prestamos_electronicos }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Recargas Billetera</label>
+            {{ form.recargas_billetera }}
+        </div>
+
+        <!-- 5) Valores Monetarios -->
+        <div class="section-title">5) Valores Monetarios</div>
+        
+        <div class="detail-item">
+            <label class="detail-label">Monto Total</label>
+            {{ form.monto_total }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Importe Reclamado</label>
+            {{ form.importe_reclamado }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Tipo Cambio BCP</label>
+            {{ form.tipo_cambio_bcp }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Fondos Cliente Protegido</label>
+            {{ form.fondos_cliente_protegido }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Imp. Acreditado CTA</label>
+            {{ form.importe_acreditado_cta }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Imp. Afectado Pérdidas</label>
+            {{ form.importe_afectado_perdidas }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Imp. Salvado Protegido</label>
+            {{ form.importe_salvado_protegido }}
+        </div>
+
+        <!-- 6) Conciliaciones -->
+        <div class="section-title">6) Conciliaciones</div>
+        <div class="detail-item">
+            <label class="detail-label">Fecha Asiento</label>
+            {{ form.fecha_asiento }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Número Asiento</label>
+            {{ form.numero_asiento }}
+        </div>
+
+        <div class="detail-item">
+            <label class="detail-label">Fecha Cierre</label>
+            {{ form.fecha_cierre }}
+        </div>
+        <div class="detail-item" style="grid-column: 1 / -1;">
+            <label class="detail-label">Dictamen</label>
+            {{ form.dictamen }}
+        </div>
+
+        <!-- 7) Verificaciones -->
+        <div class="section-title">7) Verificaciones</div>
+        <div class="detail-item">
+            <label class="detail-label">Tecnología Usada</label>
+            {{ form.tecnologia_usada }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Responsable Análisis</label>
+            {{ form.responsable_analisis }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Última Modificación</label>
+            {{ form.ultima_modificacion }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">Usuario Modificación</label>
+            {{ form.usuario_modificacion }}
+        </div>
+        <div class="detail-item">
+            <label class="detail-label">País</label>
+            {{ form.pais }}
+        </div>
+        <div class="detail-item" style="grid-column: 1 / -1;">
+            <label class="detail-label">Resumen Fraude</label>
+            {{ form.resumen_fraude }}
+        </div>
+        <div class="detail-item" style="grid-column: 1 / -1;">
+            <label class="detail-label">Observación</label>
+            {{ form.observacion }}
+        </div>
+
+        <div style="grid-column: 1 / -1; margin-top: 2rem; display: flex; justify-content: flex-end; gap: 1rem;">
+            <button type="submit" class="btn btn-primary" style="padding: 0.75rem 2rem; font-size: 1rem;">
+                Guardar Cambios
+            </button>
+        </div>
+    </div>
+</form>
+{% endblock %}
